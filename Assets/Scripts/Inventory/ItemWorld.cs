@@ -30,7 +30,7 @@ public class ItemWorld : MonoBehaviour
     public static ItemWorld SpawnItemWorld(Vector3 posistion, Item item) 
     {
         Transform transform = Instantiate(ItemAssets.Instance.pfItemWorld, posistion, Quaternion.identity);
-
+        transform.tag = "Item";
         ItemWorld itemWorld = transform.GetComponent<ItemWorld>();
         itemWorld.SetItem(item);
 
