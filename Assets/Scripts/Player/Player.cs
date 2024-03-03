@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 
 public class Player : MonoBehaviour
@@ -11,7 +13,9 @@ public class Player : MonoBehaviour
     // components
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator anime;
-
+    
+    [SerializeField] private UI_Inventory inventoryUI;
+    private Inventory inventory;
 
     // inputs
     [SerializeField] private InputActionReference act;
@@ -31,6 +35,12 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anime = GetComponent<Animator>();
+
+        inventory = new Inventory();
+        inventoryUI.SetInventory(inventory);
+        inventoryUI.SetPlayer(this);
+
+        //ItemWorld.SpawnItemWorld(new Vector3(2, 2), new Item { Type = Item.ItemType.Potato, amount = 1 });
     }
 
     // Update is called once per frame
@@ -41,6 +51,16 @@ public class Player : MonoBehaviour
         anime.SetInteger("State", (int)state);
     }
 
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
+        if (itemWorld != null) 
+        {
+            inventory.AddItem(itemWorld.GetItem());
+            itemWorld.DestroySelf();
+        }
+    }
 
     // movement input
     private void OnMove(InputValue MV)
@@ -67,6 +87,11 @@ public class Player : MonoBehaviour
 
         }
         rb.velocity = Vector2.Lerp(rb.velocity, new Vector2(movement.x * speed, movement.y * speed), 0.1f);
+    }
+
+    public Vector3 GetPosition() 
+    {
+        return this.transform.position;
     }
 
     // animation states
