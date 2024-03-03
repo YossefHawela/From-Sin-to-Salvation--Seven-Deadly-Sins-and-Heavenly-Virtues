@@ -10,12 +10,20 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
+
+    public static Player Instance;
+
+    public float Coins;
+
     // components
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator anime;
     
     [SerializeField] private UI_Inventory inventoryUI;
     private Inventory inventory;
+
+    [SerializeField]
+    private GameObject Ui_MarketContainer;
 
     // inputs
     [SerializeField] private InputActionReference act;
@@ -33,6 +41,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
         rb = GetComponent<Rigidbody2D>();
         anime = GetComponent<Animator>();
 
@@ -54,11 +63,27 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
-        if (itemWorld != null) 
+        if (collision.tag == "Item")
         {
-            inventory.AddItem(itemWorld.GetItem());
-            itemWorld.DestroySelf();
+            ItemWorld itemWorld = collision.GetComponent<ItemWorld>();
+            if (itemWorld != null)
+            {
+                inventory.AddItem(itemWorld.GetItem());
+                itemWorld.DestroySelf();
+            }
+        } 
+        else if (collision.tag == "Market")
+        {
+            Ui_MarketContainer.SetActive(true);
+        }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Market")
+        {
+            Ui_MarketContainer.SetActive(false);
         }
     }
 

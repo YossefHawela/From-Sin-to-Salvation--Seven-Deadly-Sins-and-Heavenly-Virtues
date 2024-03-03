@@ -13,6 +13,7 @@ public class ItemAssets : MonoBehaviour
 
     public Transform pfItemWorld;
 
+    public Sprite PotatoSeeds;
     public Sprite Potato;
     public Sprite Onion;
 }

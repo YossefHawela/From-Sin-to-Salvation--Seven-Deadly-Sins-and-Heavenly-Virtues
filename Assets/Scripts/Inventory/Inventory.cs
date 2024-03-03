@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class Inventory 
 {
+    public static Inventory Instance;
     public event EventHandler OnItemListChanged;
 
     private List<Item> itemList;
 
     public Inventory()
     {
+        Instance = this;
         itemList = new List<Item>();
 
         //AddItem(new Item { Type = Item.ItemType.Potato, amount = 1});

@@ -6,19 +6,36 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 using TMPro;
 using CodeMonkey.Utils;
+using UnityEngine.InputSystem;
 
 public class UI_Inventory : MonoBehaviour
 {
+    
+    [SerializeField]
     private Inventory inventory;
+    [SerializeField]
     private Transform itemSlotContainer;
+    [SerializeField]
     private Transform itemSlotTemplete;
+    
     private Player player;
      
+    private GameObject Container;
+
 
     private void Awake()
     {
-        itemSlotContainer = transform.Find("ItemSlotContainer");
-        itemSlotTemplete = itemSlotContainer.Find("ItemSlotTemplete");
+        //itemSlotContainer = transform.Find("ItemSlotContainer");
+        //itemSlotTemplete = itemSlotContainer.Find("ItemSlotTemplete");
+        Container = transform.GetChild(0).gameObject;
+    }
+
+    public void Update()
+    {
+        if(Keyboard.current.eKey.wasPressedThisFrame)            
+        {
+            Container.SetActive(!Container.activeInHierarchy);
+        }
     }
 
     public void SetPlayer(Player player)

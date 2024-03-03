@@ -8,11 +8,13 @@ public class Item
 {
     public enum ItemType 
     {
+        PotatoSeeds,
         Potato,
         Onion,
     }
 
     public ItemType Type;
+    public float Price = 200;
     public int amount;
 
     public Sprite GetSprite() 
@@ -22,6 +24,7 @@ public class Item
             default: 
             case ItemType.Onion:  return ItemAssets.Instance.Onion;
             case ItemType.Potato: return ItemAssets.Instance.Potato;
+            case ItemType.PotatoSeeds: return ItemAssets.Instance.PotatoSeeds;
         }
     }
 
@@ -31,7 +34,9 @@ public class Item
         {
             default:
             case ItemType.Potato:
+            case ItemType.PotatoSeeds:
             case ItemType.Onion:return true;
+
         }
     }
 }
